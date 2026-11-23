@@ -147,7 +147,19 @@ async function requestEmployees(path = "", options = {}) {
         );
     }
 
-    const result = await response.json();
+    const contentType = response.headers.get("content-type") || "";
+    if (!contentType.includes("application/json")) {
+        throw new Error(
+            "The employee API returned a non-JSON response. Restart the frontend and backend, then use the current Vite network URL.",
+        );
+    }
+
+    let result;
+    try {
+        result = await response.json();
+    } catch {
+        throw new Error("The employee API returned invalid JSON.");
+    }
     if (!response.ok) {
         const validationMessage = result.errors
             ?.map((error) => error.message)
