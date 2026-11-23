@@ -61,12 +61,13 @@ The backend runs on port `5000` by default.
 
 Employee status is `active` or `inactive`; new records default to `active`.
 
-## Deploy the backend to Vercel
+## Deploy the full app to Vercel
 
-Deploy the backend as a separate Vercel project so the frontend project can remain unchanged:
+The frontend and API can share one Vercel project and domain:
 
-1. Import this repository into Vercel and set the project root directory to `backend`.
-2. Use the Express framework preset and keep the default build settings.
-3. Add `MONGO_URI` to the backend project's Production environment variables. Use a MongoDB Atlas connection string; a local `localhost` URI is not reachable from Vercel.
-4. Deploy and verify `https://<backend-project>.vercel.app/api/health` returns JSON with `status: "ok"` and `database: "connected"`.
-5. In the frontend Vercel project, set `VITE_API_URL` to `https://<backend-project>.vercel.app/api` and redeploy.
+1. Import this repository into Vercel and set the project root directory to the repository root (`.`), not `backend` or `frontend`.
+2. Use the Other framework preset. The root `vercel.json` installs both packages, builds the frontend, and serves the Express API from `/api/*`.
+3. Add `MONGO_URI` to the project's Production environment variables. Use a reachable MongoDB Atlas connection string; a local `localhost` URI is not reachable from Vercel.
+4. Deploy and verify `https://<project>.vercel.app/` loads the employee app and `https://<project>.vercel.app/api/health` returns `status: "ok"` and `database: "connected"`.
+
+The frontend defaults to the same-origin `/api` path, so no `VITE_API_URL` setting is needed for this deployment.
