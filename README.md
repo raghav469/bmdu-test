@@ -34,7 +34,7 @@ A responsive employee directory built with React, Express, and MongoDB. Administ
    npm run dev
    ```
 
-5. Open the Vite URL shown in the frontend terminal (normally `http://localhost:5173`).
+5. Open the local Vite URL shown in the frontend terminal. To test on a phone, use Vite's Network URL while the phone and computer are on the same Wi-Fi. Allow Node.js through Windows Firewall on private networks if prompted.
 
 ## Features
 
