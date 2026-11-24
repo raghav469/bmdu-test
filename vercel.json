@@ -2,5 +2,8 @@
   "version": 2,
   "installCommand": "npm ci --prefix backend && npm ci --prefix frontend",
   "buildCommand": "npm run build --prefix frontend",
-  "outputDirectory": "frontend/dist"
+  "outputDirectory": "frontend/dist",
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "/api/[...path]" }
+  ]
 }
