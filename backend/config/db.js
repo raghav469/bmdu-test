@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
-const { MongoMemoryServer } = require('mongodb-memory-server');
 
 let connectionPromise;
-let memoryServer;
 
 async function connectDB() {
   const { MONGO_URI } = process.env;
@@ -23,23 +21,8 @@ async function connectDB() {
       })
       .then(() => {
         console.log(
-          `MongoDB Atlas connected: ${mongoose.connection.host}/${mongoose.connection.name}`,
+          `MongoDB connected: ${mongoose.connection.host}/${mongoose.connection.name}`,
         );
-      })
-      .catch(async (atlasError) => {
-        console.warn(`MongoDB Atlas unavailable: ${atlasError.message}`);
-
-        if (!memoryServer) {
-          memoryServer = await MongoMemoryServer.create({
-            instance: { dbName: 'employeeDB' },
-          });
-        }
-
-        await mongoose.connect(memoryServer.getUri(), {
-          maxPoolSize: 10,
-          serverSelectionTimeoutMS: 8000,
-        });
-        console.log('MongoDB Memory Server connected for local development');
       })
       .finally(() => {
         connectionPromise = undefined;
